@@ -1,2 +1,10 @@
-package com.mahmoud.blog.services;public interface UserService {
+package com.mahmoud.blog.services;
+
+
+import com.mahmoud.blog.domain.entities.User;
+
+import java.util.UUID;
+
+public interface UserService {
+    User getUserById(UUID id);
 }
