@@ -1,9 +1,9 @@
 package com.mahmoud.blog.mappers;
 
 import com.mahmoud.blog.domain.CreatePostRequest;
+import com.mahmoud.blog.domain.UpdatePostRequest;
 import com.mahmoud.blog.domain.dtos.CreatePostRequestDto;
 import com.mahmoud.blog.domain.dtos.PostDto;
-import com.mahmoud.blog.domain.dtos.UpdatePostRequest;
 import com.mahmoud.blog.domain.dtos.UpdatePostRequestDto;
 import com.mahmoud.blog.domain.entities.Post;
 import org.mapstruct.Mapper;

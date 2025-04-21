@@ -2,7 +2,7 @@ package com.mahmoud.blog.services.impl;
 
 import com.mahmoud.blog.domain.CreatePostRequest;
 import com.mahmoud.blog.domain.PostStatus;
-import com.mahmoud.blog.domain.dtos.UpdatePostRequest;
+import com.mahmoud.blog.domain.UpdatePostRequest;
 import com.mahmoud.blog.domain.entities.Category;
 import com.mahmoud.blog.domain.entities.Post;
 import com.mahmoud.blog.domain.entities.Tag;
@@ -36,33 +36,38 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public List<Post> getAllPosts(UUID categoryId, UUID tagId) {
-        if(categoryId != null && tagId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            Tag tag = tagService.getTagById(tagId);
-            return postRepository.findAllByStatusAndCategoryAndTagsContaining(
-                    PostStatus.PUBLISHED,
-                    category,
-                    tag
-            );
-        }
+        try {
+            if(categoryId != null && tagId != null) {
+                Category category = categoryService.getCategoryById(categoryId);
+                Tag tag = tagService.getTagById(tagId);
+                return postRepository.findAllByStatusAndCategoryAndTagsContaining(
+                        PostStatus.PUBLISHED,
+                        category,
+                        tag
+                );
+            }
 
-        if(categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            return postRepository.findAllByStatusAndCategory(
-                    PostStatus.PUBLISHED,
-                    category
-            );
-        }
+            if(categoryId != null) {
+                Category category = categoryService.getCategoryById(categoryId);
+                return postRepository.findAllByStatusAndCategory(
+                        PostStatus.PUBLISHED,
+                        category
+                );
+            }
 
-        if(tagId != null) {
-            Tag tag = tagService.getTagById(tagId);
-            return postRepository.findAllByStatusAndTagsContaining(
-                    PostStatus.PUBLISHED,
-                    tag
-            );
-        }
+            if(tagId != null) {
+                Tag tag = tagService.getTagById(tagId);
+                return postRepository.findAllByStatusAndTagsContaining(
+                        PostStatus.PUBLISHED,
+                        tag
+                );
+            }
 
-        return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+            return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
@@ -91,7 +96,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional
     public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
         Post existingPost = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id " + id));
@@ -117,6 +121,34 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(existingPost);
     }
+
+//    @Override
+//    @Transactional
+//    public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
+//        Post existingPost = postRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id " + id));
+//
+//        existingPost.setTitle(updatePostRequest.getTitle());
+//        String postContent = updatePostRequest.getContent();
+//        existingPost.setContent(postContent);
+//        existingPost.setStatus(updatePostRequest.getStatus());
+//        existingPost.setReadingTime(calculateReadingTime(postContent));
+//
+//        UUID updatePostRequestCategoryId = updatePostRequest.getCategoryId();
+//        if(!existingPost.getCategory().getId().equals(updatePostRequestCategoryId)) {
+//            Category newCategory = categoryService.getCategoryById(updatePostRequestCategoryId);
+//            existingPost.setCategory(newCategory);
+//        }
+//
+//        Set<UUID> existingTagIds = existingPost.getTags().stream().map(Tag::getId).collect(Collectors.toSet());
+//        Set<UUID> updatePostRequestTagIds = updatePostRequest.getTagIds();
+//        if(!existingTagIds.equals(updatePostRequestTagIds)) {
+//            List<Tag> newTags = tagService.getTagByIds(updatePostRequestTagIds);
+//            existingPost.setTags(new HashSet<>(newTags));
+//        }
+//
+//        return postRepository.save(existingPost);
+//    }
 
     @Override
     public Post getPost(UUID id) {

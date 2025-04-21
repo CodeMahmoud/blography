@@ -1,8 +1,7 @@
 package com.mahmoud.blog.services;
 
 import com.mahmoud.blog.domain.CreatePostRequest;
-import com.mahmoud.blog.domain.dtos.PostDto;
-import com.mahmoud.blog.domain.dtos.UpdatePostRequest;
+import com.mahmoud.blog.domain.UpdatePostRequest;
 import com.mahmoud.blog.domain.entities.Post;
 import com.mahmoud.blog.domain.entities.User;
 

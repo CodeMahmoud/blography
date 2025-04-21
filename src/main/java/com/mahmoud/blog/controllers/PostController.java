@@ -1,9 +1,9 @@
 package com.mahmoud.blog.controllers;
 
 import com.mahmoud.blog.domain.CreatePostRequest;
+import com.mahmoud.blog.domain.UpdatePostRequest;
 import com.mahmoud.blog.domain.dtos.CreatePostRequestDto;
 import com.mahmoud.blog.domain.dtos.PostDto;
-import com.mahmoud.blog.domain.dtos.UpdatePostRequest;
 import com.mahmoud.blog.domain.dtos.UpdatePostRequestDto;
 import com.mahmoud.blog.domain.entities.Post;
 import com.mahmoud.blog.domain.entities.User;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@RestController
 @RequestMapping(path = "/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
